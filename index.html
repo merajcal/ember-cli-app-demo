@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Bootstrap Sidebar</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<link href="css/styles.css" rel="stylesheet">
+	</head>
+	<body>
+
+<header class="navbar navbar-default navbar-static-top" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="#" class="navbar-brand">Admin Center</a>
+    </div>
+
+  </div>
+</header>
+
+<!-- Begin Body -->
+  <script type="text/x-handlebars">
+      <div class="container" id="main">
+        {{outlet}}
+      </div>
+ </script>
+<script type="text/x-handlebars" id="index">
+    <div class="row">
+        <div class="col-md-3" id="leftCol">
+
+            <div class="well">
+                <ul class="nav nav-stacked" id="sidebar">
+                    {{#each menu in model}}
+                        {{#if menu.templateId}}
+                            <li>{{#link-to menu.templateId}} {{menu.menuLabel}} {{/link-to}}</li>
+                        {{else}}
+                             <li><a href="#"> {{menu.menuLabel}} </a></li>
+                        {{/if}}
+                    {{/each}}
+
+                </ul>
+            </div>
+
+        </div>
+        <div class="col-md-9">
+            <h2 id="sec0">Content</h2>
+            {{outlet}}
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars" id="userlist" >
+
+    <form class="form-horizontal" role="form">
+
+        {{user-list-grid userListData=model}}
+
+    </form>
+  </script>
+
+<script type="text/x-handlebars" id="activate-user-list" >
+
+    <form class="form-horizontal" role="form">
+
+        {{user-list-grid userListData=model}}
+        {{#link-to 'activate-selected-users' class="btn btn-success"}}Activate{{/link-to}}
+
+    </form>
+</script>
+
+<script type="text/x-handlebars" id="activate-selected-users">
+
+    <form class="form-horizontal" role="activate-selected-users-form">
+        <table class="table table-bordered table-hover" >
+            <thead>
+            <tr>
+
+                <th>Access ID</th>
+                <th>Name</th>
+                <th>Phone</th>
+
+            </tr>
+            </thead>
+            <tbody>
+                {{#each selectedUser in model}}
+                {{#if selectedUser.selected}}
+                <tr>
+
+                    <td>{{selectedUser.accessId}}</td>
+                    <td>{{selectedUser.firstName}}</td>
+                    <td>{{selectedUser.Phone}}</td>
+
+                </tr>
+                {{/if}}
+                {{/each}}
+            </tbody>
+        </table>
+     </form>
+
+</script>
+
+<script type="text/x-handlebars" data-template-name="components/user-list-grid">
+
+    <table class="table table-bordered table-hover" >
+        <thead>
+        <tr>
+            <th>Select</th>
+            <th>Access ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {{#each item in userListData}}
+        <tr>
+            <td>{{input type="checkbox" checked=item.selected}} </td>
+            <td>{{item.accessId}}</td>
+            <td>{{item.firstName}}</td>
+            <td>{{item.Phone}}</td>
+
+        </tr>
+        {{/each}}
+
+        </tbody>
+    </table>
+
+</script>
+
+<script type="text/x-handlebars" id="add-user">
+    <form class="form-horizontal" role="add-user-form">
+        <div class="form-group">
+            <label for="accessId" class="col-sm-2 control-label">Access Id</label>
+            <div class="col-sm-10">
+                {{input type="title" class="form-control" id="accessId" value=accessId placeholder="Access Id"}}
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="firstName" class="col-sm-2 control-label">First Name</label>
+            <div class="col-sm-10">
+                {{input type="url" class="form-control" id="firstName" name="firstName" placeholder="First Name" value=firstName}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lastName" class="col-sm-2 control-label">Last Name</label>
+            <div class="col-sm-10">
+                {{input type="url" class="form-control" id="lastName" name="lastName" placeholder="Last Name" value=lastName}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="phone" class="col-sm-2 control-label">Phone</label>
+            <div class="col-sm-10">
+                {{input type="url" class="form-control" id="phone" name="phone" placeholder="Phone" value=Phone}}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success" {{action 'submitForApproval'}}>Submit For Approval</button>
+            </div>
+        </div>
+    </form>
+
+</script>
+
+	<!-- script references -->
+		<script src="js/libs/jquery-v1.11.1.js"></script>
+		<script src="js/libs/bootstrap.js"></script>
+		<script src="js/scripts.js"></script>
+        <script src="js/libs/ember-template-compiler-1.10.0.js"></script>
+        <script src="js/libs/ember-1.10.0.debug.js"></script>
+        <script src="js/libs/ember-data.js"></script>
+        <script src="js/app.js"></script>
+
+    </body>
+</html>
